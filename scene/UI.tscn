@@ -1,0 +1,13 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://scene/HP.gd" type="Script" id=1]
+
+[node name="UI" type="CanvasLayer"]
+
+[node name="HP" type="Label" parent="."]
+margin_left = 10.0
+margin_top = 10.0
+margin_right = 55.0
+margin_bottom = 24.0
+text = "10/100"
+script = ExtResource( 1 )

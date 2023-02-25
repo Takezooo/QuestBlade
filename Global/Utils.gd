@@ -24,6 +24,8 @@ func save_game():
 		"Gender": Game.Gender,
 		"PlayerSelected": Game.PlayerSelected,
 		"FirstLaunch": Game.FirstLaunch,
+		"Player_HP": Game.Player_HP,
+		"Player_MAX_HP": Game.Player_MAX_HP,
 	}
 	save_game.store_line(to_json(data))
 	save_game.close()
@@ -38,5 +40,7 @@ func load_game():
 			Game.Gender = current_line["Gender"]
 			Game.PlayerSelected = current_line["PlayerSelected"]
 			Game.FirstLaunch = current_line["FirstLaunch"]
+			Game.Player_HP = current_line["Player_HP"]
+			Game.Player_MAX_HP = current_line["Player_MAX_HP"]
 			
 	save_game.close()
