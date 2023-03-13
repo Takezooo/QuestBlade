@@ -5,15 +5,26 @@ const friction = 80
 const walk_speed = 70
 const run_speed = 120
 
+var HIT = preload("res://Global/Hit.tscn")
 var motion = Vector2()
 var max_speed = walk_speed
 var is_running = null
 var knockback_dir = Vector2.ZERO
 var knockback = Vector2.ZERO
+#TIMER FOR SHOCK
+var timer = 5
+
 
 onready var sword: Node2D = get_node("Sword")
 onready var sword_animation_player: AnimationPlayer = sword.get_node("SwordAnimationPlayer" )
 func _physics_process(delta):
+	
+	if timer != 0:
+		timer -= get_process_delta_time()
+		print(timer)
+	if timer < 0:
+		timer = 0
+			
 	if Game.Player_HP <= 0:
 		get_tree().change_scene("res://scene/GameOver.tscn")
 	var mouse_direction: Vector2 = (get_global_mouse_position() - global_position).normalized()
@@ -27,7 +38,10 @@ func _physics_process(delta):
 	input = input.normalized()
 	
 	if Input.is_action_pressed("shock"):
-		$AnimationPlayer.play("Knock")
+		if timer <= 0:
+			$AnimationPlayer.play("Knock")
+			yield(get_node("AnimationPlayer"), "animation_finished")
+			timer = 5
 		
 	if Input.is_action_pressed("run"):
 		is_running = true
@@ -77,7 +91,6 @@ func _physics_process(delta):
 		else:
 			get_node("Sword").show()
 			get_node("Sword/Node2D/AttackDetector/CollisionShape2D").disabled = false
-		
 
 func show_Sprite(sprite_name):
 	get_node("Idle").hide()
@@ -99,13 +112,18 @@ func _on_EnemyDetect_area_entered(area):
 
 func _on_AttackDetector_area_entered(area):
 	if "PlayerDetect" in area.name:
-		area.get_parent().knockback = -area.get_parent().knockback_dir*200
-		area.get_parent().health -= 4
+		area.get_parent().knockback = -area.get_parent().knockback_dir*130
+		area.get_parent().health -= Game.BSword_Damage
+		var hit = HIT.instance()
+		area.get_parent().add_child(hit)
+		hit.show_value(str(Game.BSword_Damage))
+		
 
 func _on_Shock_area_entered(area):
 	if Input.is_action_pressed("shock"):
-		if "PlayerDetect" in area.name:
+		if "PlayerDetect" in area.name and timer <= 0:
 			area.get_parent().knockback = -area.get_parent().knockback_dir*320
-			area.get_parent().health -= 2
-
-
+			area.get_parent().health -= Game.Shock_Damage
+			var shockhit = HIT.instance()
+			area.get_parent().add_child(shockhit)
+			shockhit.show_value(str(Game.Shock_Damage))
