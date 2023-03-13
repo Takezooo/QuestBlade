@@ -1696,10 +1696,10 @@ shape = SubResource( 8 )
 [node name="Player" parent="MainYSort" instance=ExtResource( 2 )]
 position = Vector2( 332, 267 )
 
-[node name="Camera2D" parent="MainYSort/Player" index="3"]
+[node name="Camera2D" parent="MainYSort/Player" index="5"]
 limit_right = 797
 
-[node name="AnimationTree" parent="MainYSort/Player" index="5"]
+[node name="AnimationTree" parent="MainYSort/Player" index="7"]
 parameters/playback = SubResource( 9 )
 
 [node name="Orc" parent="MainYSort" instance=ExtResource( 6 )]
