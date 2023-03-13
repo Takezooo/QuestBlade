@@ -1,6 +1,7 @@
 extends Node2D
 
 func _ready():
+	OS.center_window()
 	Utils.load_game()
 
 func _on_Play_Btn_pressed():
